@@ -27,14 +27,13 @@
             </label>
         </div>
         <div class="form-group">
-            <button class="btn btn-primary">Lưu</button>
+            <button class="btn btn-primary" @click="createContact">Lưu</button>
             <button v-if="contactLocal._id" type="button" class="ml-2 btn btn-danger" @click="deleteContact">
                 Xóa
             </button>
         </div>
     </Form>
 </template>
-
 <script>
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -44,7 +43,7 @@ export default {
         Field,
         ErrorMessage,
     },
-    emits: ["submit:contact", "delete:contact"],
+    emits: ["submit:contact", "delete:contact", "create:contact"],
     props: {
         contact: { type: Object, required: true }
     },
@@ -70,11 +69,14 @@ export default {
         return {
             // Chúng ta sẽ không muốn hiệu chỉnh props, nên tạo biến cục bộ
             // contactLocal để liên kết với các input trên form
-            contactLocal: this.contact,
+            contactLocal: { ...this.contact },
             contactFormSchema,
         };
     },
     methods: {
+        createContact() {
+            this.$emit("create:contact", this.contactLocal);
+        },
         submitContact() {
             this.$emit("submit:contact", this.contactLocal);
         },
