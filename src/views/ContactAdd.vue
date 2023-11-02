@@ -9,6 +9,7 @@ export default {
     components: {
         ContactForm
     },
+
     data() {
         return {
             contact: null,
